@@ -4,34 +4,33 @@ while read line; do
 
  echo "Preparing backup for user " $line
 
- user=$line
+ USER=$line
 
- user_directory=/home/$user  
+ USER_DIRECTORY=/home/$USER  
 
  #Initial file to be checked or created if .backup is not exist
- backupfile=.backup
+ BACKUPFILE=.backup
 
- vardir=/var  
+ VAR_DIR=/var  
 
- tmpbackup=/tmp/backup
+ TMP_BACKUP=/tmp/backup
 
  #folder to tar 
- #directory_to_backup=${tmpbackup}/${user_directory}
- directory_to_backup=$user_directory
+ #DIRECTORY_TO_BACKUP=${TMP_BACKUP}/${USER_DIRECTORY}
+ DIRECTORY_TO_BACKUP=$USER_DIRECTORY
 
 
-
- if [ ! -f ${user_directory}/$backupfile ]; then
+ if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
 	echo "Document .backup does not exist"
 	echo "Creating .backup file...."
-	touch ${user_directory}/$backupfile
-	if [ -f ${user_directory}/$backupfile ]; then
+	touch ${USER_DIRECTORY}/$BACKUPFILE
+	if [ -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
 		echo ".backup created successfully"
 	fi
  fi
 
  #check if /var/backup.tar.gz exist
- if [ -f ${vardir}/backup.tar.gz ]; then
+ if [ -f ${VAR_DIR}/backup.tar.gz ]; then
 	echo "/var/backup.tar.gz exist"
 
 	#check if /tmp/backup dir exist before extracting 
@@ -40,13 +39,13 @@ while read line; do
 	fi
 
 	echo "extracting /var/backup.tar.gz to /tmp/backup"
-	tar xf ${vardir}/backup.tar.gz -C $tmpbackup
+	tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 	
 
 	#do the comparison here 
-	FILE1=${user_directory}/$backupfile 
-	FILE2=${tmpbackup}/${user_directory}/$backupfile
+	FILE1=${USER_DIRECTORY}/$BACKUPFILE 
+	FILE2=${TMP_BACKUP}/${USER_DIRECTORY}/$BACKUPFILE
 
 	if cmp --silent -- "$FILE1" "$FILE2"; then
   		echo "Both files  are identical" 
@@ -62,16 +61,16 @@ while read line; do
   		mv $FILE2 ${FILE2}.$counter
 
  		#Copy the renamed  file to /home/user
-                cp $FILE2.$counter $user_directory
+                cp $FILE2.$counter $USER_DIRECTORY
 
 	fi
 
  fi
 
 
- # tar -czvf /var/backup.tar.gz $user_directory  this is final 
- echo "Creating a backup.tar.gz file in " $vardir from $directory_to_backup
- sudo tar -czvf ${vardir}/backup.tar.gz  ${directory_to_backup}/*.backup*
+ # tar -czvf /var/backup.tar.gz $USER_DIRECTORY  this is final 
+ echo "Creating a backup.tar.gz file in " $VAR_DIR from $DIRECTORY_TO_BACKUP
+ sudo tar -czvf ${VAR_DIR}/backup.tar.gz  ${DIRECTORY_TO_BACKUP}/*.backup*
 
  #display the list of /var/backup.tar.gz
  tar --list --file=/var/backup.tar.gz
