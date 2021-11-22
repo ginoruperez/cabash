@@ -95,7 +95,8 @@ while read line; do
 
 	# tar -czvf /var/backup.tar.gz $USER_DIRECTORY  this is final 
 	echo "Creating a backup.tar.gz file in /var from /var/backup content"
-	sudo tar -C /var/backup -cvf /var/backup.tar.gz . 
+	#sudo tar -C /var/backup -cvf /var/backup.tar.gz . 
+	sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
 	#display the list of /var/backup.tar.gz
 	tar --list --file=/var/backup.tar.gz
