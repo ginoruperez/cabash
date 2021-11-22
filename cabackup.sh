@@ -42,6 +42,53 @@ while read line; do
 		echo "extracting /var/backup.tar.gz to /tmp/backup"
 		tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
+
+
+		#Compare each file from /tmp/backup/user/ vs /home/user/
+		TMP_BAK_USER=${TMP_BACKUP}/${USER}
+		
+
+		for FILENAME in $TMP_BAK_USER; do
+
+			USER_FILE=${USER_DIRECTORY}/$FILENAME
+
+			if cmp --silent -- "$FILENAME" "$USER_FILE"; then
+				echo  $FILENAME "in /tmp is identical to " $USER_FILE
+			else
+				echo "Both files differ"
+				#replace the previous with e.g. filename.1 , filename.2 ... 
+				counter=1
+				until [ ! -f ${TMP_BAK_USER}/${FILENAME}.$counter ]; do
+					let counter+=1
+					echo "Counter :" $counter
+				done
+
+				#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
+				sudo mv ${TMP_BAK_USER}/${FILENAME} ${TMP_BAK_USER}/${FILENAME}.$counter
+
+				#Then copy the original  file from /home/user to /tmp/backup/user/
+				cp $USER_FILE $TMP_BAK_USER
+
+			fi
+
+		done
+		
+		while read line; do
+			FILE1= 
+
+
+			#Read the user .backup file and copy the file listed to /var/backup/$user 
+			#Example cp /home/gino/myscript.txt /var/backup/gino 
+			sudo cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
+
+		done < $USER_BACKUP_FILE
+
+
+
+
+
+
+
 		
 		#do the comparison here 
 		FILE1=${USER_DIRECTORY}/$BACKUPFILE 
@@ -61,7 +108,7 @@ while read line; do
 			mv $FILE2 ${FILE2}.$counter
 
 			#Copy the renamed  file to /home/user
-					cp $FILE2.$counter $USER_DIRECTORY
+			cp $FILE2.$counter $USER_DIRECTORY
 
 		fi
 
