@@ -1,0 +1,80 @@
+#!/bin/bash
+
+while read line; do
+ echo $line
+
+ #user=$(whoami)  #temporary
+ user=$line
+
+ user_directory=/home/$user  #this is final
+ #user_directory=/home/$user/gino  #temporary
+
+
+ backupfile=document.backup
+
+
+ vardir=/var  
+ #vardir=/home/${user}/var  #temporary
+ tmpbackup=/tmp/backup
+
+ #folder to tar 
+ #directory_to_backup=${tmpbackup}/${user_directory}
+ directory_to_backup=$user_directory
+
+
+
+ if [ ! -f ${user_directory}/$backupfile ]; then
+	echo "Document.backup does not exist"
+	echo "Creating the file...."
+	touch ${user_directory}/$backupfile
+	if [ -f ${user_directory}/$backupfile ]; then
+		echo "document.backup created successfully"
+	fi
+ fi
+
+ #check if /var/backup.tar.gz exist
+ if [ -f ${vardir}/backup.tar.gz ]; then
+	echo "/var/backup.tar.gz exist"
+	#check if /tmp/backup dir exist before extracting 
+	if [ ! -d /tmp/backup ]; then 
+	 	mkdir /tmp/backup
+	fi
+	echo "extracting /var/backup.tar.gz to /tmp/backup"
+	tar xf ${vardir}/backup.tar.gz -C $tmpbackup
+	#do the comparison here 
+
+	FILE1=${user_directory}/$backupfile 
+	FILE2=${tmpbackup}/${user_directory}/$backupfile
+
+	if cmp --silent -- "$FILE1" "$FILE2"; then
+  		echo "files contents are identical" 
+	else
+  		echo "files differ"
+          	#replace the previous to 1 etc
+		counter=1
+		until [ ! -f ${FILE2}.$counter ]; do
+			let counter+=1
+			echo "Counter :" $counter
+		done
+
+  		mv $FILE2 ${FILE2}.$counter
+ 		#Copy the renamed  file to /home/user
+                cp $FILE2.$counter $user_directory
+
+	fi
+
+ fi
+
+
+ # tar -czvf /var/backup.tar.gz $user_directory  this is final 
+ echo "Creating a backup.tar.gz file in " $vardir from $directory_to_backup
+ sudo tar -czvf ${vardir}/backup.tar.gz  ${directory_to_backup}/*.backup*
+
+ #display the list of /var/backup.tar.gz
+ tar --list --file=/var/backup.tar.gz
+
+
+done < $1
+
+
+

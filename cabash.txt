@@ -1,0 +1,53 @@
+Bash Scripting
+Create a bash script, which takes as an argument, a filename where the file contains a list of usernames, and backs up the users home directories as follows:
+
+Each home directory contains a file named .backup, with the files to be backed up (relative paths from home directory) one per line. If the file .backup is not present, it should be created as zero-length.
+
+The file /var/backup.tar.gz, if existing, should be extracted to /tmp/backup.
+
+Each relevant file in /home/<user> should be compared with those in the /tmp/backup/<user> directory with the same name, and if different, the previous version must be renamed and replaced. If filename.1 exists, filename should be renamed to filename.2 or 3 etc. and the file copied from the home directory. 
+
+At the end the backup should be zipped up tar with gzip compression to /var/backup.tar.gz
+
+Submission status
+Submission status	No attempt
+Grading status	Not marked
+Due date	Monday, 6 December 2021, 6:00 PM
+Time remaining	15 days 20 hours
+
+
+
+1. create a userlist.txt   -- contains name of users 
+
+
+QUESTION : do we need to create first manually a text file with list of all users then use that file as parameter when calling the script. or should we read the /home directory to get all users or list the users using cat /etc/passwd
+
+2. e.g.  /home/gino   
+         /home/james
+         /home/azureuser
+
+   it contains initially by document.backup  if not exist create a zero length document.backup
+
+   on first run 
+   home/gino/document.backup   0 bytes
+   home.james/document.backup  0 bytes
+
+QUESTION : do we have to create our own filename e.g. document.backup or anyfilename.backup initially
+
+3. check if /var/backup.tar.gz  
+   if exist 
+      extract /var/backup.tar.gz  to /tmp/backup/
+
+      compare 
+
+      home/gino/document.backup   to /tmp/backup/home/gino/document.backup 
+      if file differs 
+        - rename /home/gino/document.backup to /home/gino/document.backup.1
+        - copy  /tmp/backup/home/gino/document.backup  to /home/gino/
+
+QUESTION : do we need to check if the user has permission to create a file in /var
+
+4. tar -czf /var/backup.tar.gz /home/gino
+   tar -czf /var/backup.tar.gz /home/james
+
+QUESTION : - do we have to create only one /var/backup.tar.gz    which contains the backup of all home/users  e.g. /home/user1 , /home/user2
