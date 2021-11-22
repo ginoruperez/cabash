@@ -70,7 +70,7 @@ while read line; do
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
 				echo "/var/backup folder is created"
-				mkdir ${VAR_DIR}/backup
+				sudo mkdir ${VAR_DIR}/backup
 		fi
 
 		#Read each user e.g /home/gino/.backup file and copy to /var/backup/$user/
@@ -79,11 +79,11 @@ while read line; do
 		while read line; do
 
 			if [ ! -d $VAR_BAK_USER ]; then 
-				mkdir $VAR_BAK_USER
+				sudo mkdir $VAR_BAK_USER
 			fi
 			#Read the user .backup file and copy the file listed to /var/backup/$user 
 			#Example cp /home/gino/myscript.txt /var/backup/gino 
-			cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
+			sudo cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
 
