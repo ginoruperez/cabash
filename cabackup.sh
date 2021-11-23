@@ -10,9 +10,7 @@ ISTARFILE_EXTRACTED=false
 
 while read line; do
 
-	echo ""
-	echo "*** Preparing backup for user " $line "***"
-
+	
 	USER=$line
 
 	USER_DIRECTORY=/home/$USER  
@@ -28,6 +26,16 @@ while read line; do
 
 	#Source folder to be zip into backup.tar.gz
 	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
+
+	if [ ! d $USER_DIRECTORY ]; then
+		echo "ERROR: Entry in file $1 home user folder "$USER_DIRECTORY " does not exist!"
+		continue
+	fi
+
+	echo ""
+	echo "*** Preparing backup for user " $line "***"
+
+
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
