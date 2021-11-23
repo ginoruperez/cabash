@@ -169,6 +169,7 @@ while read line; do
 	sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
 	#display the list of /var/backup.tar.gz
+	echo "Displaying the content of /var/backup.tar.gz"
 	tar --list --file=/var/backup.tar.gz
 
 
