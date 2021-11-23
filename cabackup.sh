@@ -46,9 +46,9 @@ while read line; do
 		tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 		#Compare each file from /tmp/backup/user/ vs /home/user/
-		TMP_BAK_USER=${TMP_BACKUP}/$USER
+		TMP_BAK_USER=${TMP_BACKUP}/$USER/*.*
 		
-		for FILENAME in ${TMP_BAK_USER}/*.*; do
+		for FILENAME in ${TMP_BAK_USER}; do
 
 			# remove the path using ##*/ coz FILENAME contains the path and filename
 			USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
@@ -70,7 +70,7 @@ while read line; do
 				sudo mv ${FILENAME} ${FILENAME}.$counter
 
 				#Then copy the original  file from /home/user to /tmp/backup/user/
-				sudo cp $USER_FILE $TMP_BAK_USER
+				sudo cp $USER_FILE ${TMP_BACKUP}/$USER
 
 			fi
 
