@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [! -f $1]; then
+if [ ! -f $1 ]; then
 	echo "ERROR: Parameter file $1 does not exist!"
 	echo "Exiting Program..."
 	exit 1
