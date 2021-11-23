@@ -152,7 +152,7 @@ while read line; do
 				sudo mkdir $VAR_BAK_USER
 			fi
 			#Read the user .backup file and copy the file listed to /var/backup/$user 
-			#Example cp /home/gino/myscript.txt /var/backup/gino 
+			echo "Example cp /home/gino/myscript.txt /var/backup/gino "
 			sudo cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
@@ -163,17 +163,18 @@ while read line; do
  
 
 
-	# tar -czvf /var/backup.tar.gz $USER_DIRECTORY  this is final 
-	echo "Creating a backup.tar.gz file in /var from /var/backup content"
-	#sudo tar -C /var/backup -cvf /var/backup.tar.gz . 
-	sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
-
-	#display the list of /var/backup.tar.gz
-	echo "Displaying the content of /var/backup.tar.gz"
-	tar --list --file=/var/backup.tar.gz
-
 
 done < $1
+
+
+# tar -czvf /var/backup.tar.gz $USER_DIRECTORY  this is final 
+echo "Creating a backup.tar.gz file in /var from /var/backup content"
+#sudo tar -C /var/backup -cvf /var/backup.tar.gz . 
+sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
+
+#display the list of /var/backup.tar.gz
+echo "Displaying the content of /var/backup.tar.gz"
+tar --list --file=/var/backup.tar.gz
 
 
 
