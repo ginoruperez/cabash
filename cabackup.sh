@@ -150,7 +150,7 @@ while read line; do
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 
-		#create /var/backup/$user folder for each user
+		echo "Create /var/backup/$user folder for each user"
 		if [ ! -d $VAR_BAK_USER ]; then 
 				sudo mkdir $VAR_BAK_USER
 		fi
