@@ -46,10 +46,10 @@ while read line; do
 
 
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
-		while read line; do
+		while read USERFILELINE; do
 
-			FILE1=${USER_DIRECTORY}/$line
-			FILE2=${TMP_BACKUP}/$USER/$line
+			FILE1=${USER_DIRECTORY}/$USERFILELINE
+			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
 			#IF  the same file exist in /tmp/backup/user then start compare
 			if [ -f $FILE2 ]; then
@@ -149,14 +149,17 @@ while read line; do
 		#Read each user e.g /home/gino/.backup file and copy to /var/backup/$user/
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
-		while read line; do
 
-			if [ ! -d $VAR_BAK_USER ]; then 
+		#create /var/backup/$user folder for each user
+		if [ ! -d $VAR_BAK_USER ]; then 
 				sudo mkdir $VAR_BAK_USER
-			fi
+		fi
+
+		while read USERFILELINE1; do
+
 			#Read the user .backup file and copy the file listed to /var/backup/$user 
 			echo "Example cp /home/gino/myscript.txt /var/backup/gino "
-			sudo cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
+			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
 
