@@ -72,9 +72,9 @@ while read line; do
 			if [ -f $FILE2 ]; then
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
-					echo $FILE1 " is identical to " $FILE2
+					echo "INFO: "$FILE1 " is identical to " $FILE2
 				else
-					echo $FILE1 " is differ to " $FILE2
+					echo "INFO: "$FILE1 " is differ to " $FILE2
 					
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
@@ -94,9 +94,12 @@ while read line; do
 			#Check if entry in .backup file is existed if not,  log the error
 			if [ ! -f $FILE1 ]; then
 				echo "ERROR: Entry filename $USERFILELINE in .backup file is not existed!"
+			else
+				#Then copy the original  file from /home/user to /tmp/backup/user/
+				echo "INFO: Copying  $FILE1 to ${TMP_BACKUP}/$USER"
+				sudo cp $FILE1 ${TMP_BACKUP}/$USER
+			
 			fi
-			#Then copy the original  file from /home/user to /tmp/backup/user/
-			sudo cp $FILE1 ${TMP_BACKUP}/$USER
 			
 
 		done < $USER_BACKUP_FILE
