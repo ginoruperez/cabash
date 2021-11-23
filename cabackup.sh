@@ -28,12 +28,12 @@ while read line; do
 	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
 	if [ ! -d $USER_DIRECTORY ]; then
-		echo "\nERROR: Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
+		echo -e "\nERROR: Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
 		continue
 	fi
 
-	echo ""
-	echo "*** Preparing backup for user " $line "***"
+	
+	echo -e "\n*** Preparing backup for user " $line "***"
 
 
 
