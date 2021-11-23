@@ -17,7 +17,7 @@ TEST CASES #2 : with .backup in /home/gino  contains two files mybash.txt and my
                 backup.tar.gz existed containing empty folders /gino and /ginoruperez
 
      OUTPUT   : backup.tar.gz created containing /gino/{withtwofiles}  and empty /ginoruperez 
-                /tmp/backup/gino created but empty
+                /tmp/backup/gino created and contains two files mybash.txt and myscript.txt
                 /tmp/backup/ginoruperez created but empty
                 /var/backup/gino created and contains mybash.txt and myscript.txt
                 /var/backup/ginoruperez created but empty
