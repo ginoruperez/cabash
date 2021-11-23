@@ -65,9 +65,9 @@ while read line; do
 			if [ -f $FILE2 ]; then
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
-					echo  $FILE1 "in /tmp is identical to " $FILE2
+					echo $FILE1 " is identical to " $FILE2
 				else
-					echo "Both files differ"
+					echo $FILE1 " is differ to " $FILE2
 					#replace the previous with e.g. filename.1 , filename.2 ... 
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
@@ -77,7 +77,6 @@ while read line; do
 
 					#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
 					sudo mv ${FILE2} ${FILE2}.$counter
-
 			
 
 				fi
