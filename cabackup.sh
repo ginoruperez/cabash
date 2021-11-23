@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-#globally output error to /dev/null
+#globally output the error to /dev/null
 exec 2> /dev/null
 
 #this variable is switch to true once .tar.gz is extracted in /tmp/backup
@@ -31,11 +31,11 @@ while read line; do
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-		echo "File .backup does not exist in " $USER_DIRECTORY
-		echo "Creating .backup file...."
+		echo "INFO: File .backup does not exist in " $USER_DIRECTORY
+		echo "INFO: Creating .backup file...."
 		sudo touch ${USER_DIRECTORY}/$BACKUPFILE
 		if [ -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-			echo "File .backup created successfully"
+			echo "INFO: File .backup created successfully"
 		fi
 	fi
 
@@ -45,7 +45,7 @@ while read line; do
 
 		if [ "$ISTARFILE_EXTRACTED" = false ]; then
 
-			echo "File /var/backup.tar.gz existed"
+			echo "INFO: File /var/backup.tar.gz existed"
 			#check if /tmp/backup dir exist before extracting remove and create
 			if [ -d /tmp/backup ]; then 
 				#remove the existing files from /tmp/backup if any
@@ -53,7 +53,7 @@ while read line; do
 			fi
 			sudo mkdir /tmp/backup
 
-			echo "Extracting /var/backup.tar.gz to /tmp/backup once only"
+			echo "INFO: Extracting /var/backup.tar.gz to /tmp/backup once only"
 			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 			#set the switch to true
@@ -108,7 +108,7 @@ while read line; do
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-			echo "Folder /var/backup  is created"
+			echo "INFO: Folder /var/backup  is created"
 			sudo mkdir ${VAR_DIR}/backup
 		fi
 
@@ -120,14 +120,14 @@ while read line; do
 		sudo mkdir $VAR_BAK_USER
 		
 		#Copying the content of /tmp/backup/user/*.* /var/backup/user"
-		echo "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
+		echo "INFO: Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 
 
  	else
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-				echo "Folder /var/backup folder is created"
+				echo "INFO: Folder /var/backup folder is created"
 				sudo mkdir ${VAR_DIR}/backup
 		fi
 
@@ -135,7 +135,7 @@ while read line; do
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 
-		echo "Creating $VAR_BAK_USER folder"
+		echo "INFO: Creating $VAR_BAK_USER folder"
 		if [ ! -d $VAR_BAK_USER ]; then 
 				sudo mkdir $VAR_BAK_USER
 		fi
@@ -145,7 +145,7 @@ while read line; do
 
 			
 			#copying /home/gino/file to /var/backup/gino
-			echo "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
+			echo "INFO: Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
 			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
@@ -158,15 +158,15 @@ done < $1
 
 # tar -czvf /var/backup.tar.gz $USER_DIRECTORY
 echo ""
-echo "Creating a backup.tar.gz file in /var from /var/backup content"
+echo "INFO: Creating a backup.tar.gz file in /var from /var/backup content"
 sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
 #display the list of /var/backup.tar.gz
 echo ""
-echo "Listing the content of /var/backup.tar.gz"
+echo "INFO: Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
 echo ""
-echo "Backup is successfully completed!"
+echo "INFO: Backup is successfully completed!"
 
 
 
