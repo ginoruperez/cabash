@@ -3,6 +3,9 @@
 #this variable is switch to true once .tar.gz is extracted in /tmp/backup
 ISTARFILE_EXTRACTED=false
 
+#globally output error /dev/null
+exec 2> /dev/null
+
 while read line; do
 
 	echo "Preparing backup for user " $line
@@ -106,7 +109,7 @@ while read line; do
 
 		#copy now to /var/backup/user/
 		echo "Finally copy the content of /tmp/backup/user/*.* /var/backup/user"
-		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2> /dev/null
+		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 
 
  	else
 
