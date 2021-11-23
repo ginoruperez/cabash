@@ -45,7 +45,7 @@ while read line; do
 
 
 		#Compare each file from /tmp/backup/user/ vs /home/user/
-		TMP_BAK_USER=${TMP_BACKUP}/${USER}
+		TMP_BAK_USER=${TMP_BACKUP}/$USER
 		
 
 		for FILENAME in $TMP_BAK_USER; do
@@ -73,44 +73,6 @@ while read line; do
 
 		done
 		
-		while read line; do
-			FILE1= 
-
-
-			#Read the user .backup file and copy the file listed to /var/backup/$user 
-			#Example cp /home/gino/myscript.txt /var/backup/gino 
-			sudo cp ${USER_DIRECTORY}/$line $VAR_BAK_USER
-
-		done < $USER_BACKUP_FILE
-
-
-
-
-
-
-
-		
-		#do the comparison here 
-		FILE1=${USER_DIRECTORY}/$BACKUPFILE 
-		FILE2=${TMP_BACKUP}/${USER_DIRECTORY}/$BACKUPFILE
-
-		if cmp --silent -- "$FILE1" "$FILE2"; then
-			echo "Both files  are identical" 
-		else
-			echo "Both files differ"
-				#replace the previous with e.g. filename.1 , filename.2 ... 
-			counter=1
-			until [ ! -f ${FILE2}.$counter ]; do
-				let counter+=1
-				echo "Counter :" $counter
-			done
-
-			mv $FILE2 ${FILE2}.$counter
-
-			#Copy the renamed  file to /home/user
-			cp $FILE2.$counter $USER_DIRECTORY
-
-		fi
 
  	else
 
