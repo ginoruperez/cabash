@@ -74,7 +74,7 @@ while read line; do
 				if cmp --silent -- "$FILE1" "$FILE2"; then
 					echo "INFO: "$FILE1 " is identical to " $FILE2
 				else
-					echo "INFO: "$FILE1 " is differ to " $FILE2
+					echo "INFO: "$FILE1 " is differ to " $FILE2 " previous file will be renamed"
 					
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
@@ -84,6 +84,7 @@ while read line; do
 					done
 
 					#replace the previous with e.g. filename.1 , filename.2 ... 
+					echo "Renaming ${FILE2} to " ${FILE2}.$counter 
 					sudo mv ${FILE2} ${FILE2}.$counter			
 
 				fi
