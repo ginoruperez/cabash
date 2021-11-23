@@ -50,7 +50,7 @@ TEST CASE #5	: reset them all by running ./rmbk  to remove all test samples
 				  /var/backup/ginoruperez is created  with one file mydata.scp
 	 			  /var/backup.tar.gz is created and with  two folders (/gino/withonefile and /ginoruperez/withonefile)
 	 			  no /tmp/backup created
-	 			  
+	 			  /home/gino/.backup and /home/ginoruperez/.backup created
 
 
 LEARNING 
