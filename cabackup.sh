@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [! -f $1]; then
+	echo "ERROR: Parameter file $1 does not exist!"
+	echo "Exiting Program..."
+	exit 1
+fi
 
 #globally output the error to /dev/null
 exec 2> /dev/null
@@ -34,8 +39,6 @@ while read line; do
 
 	
 	echo -e "\n*** Preparing backup for user " $line "***"
-
-
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
