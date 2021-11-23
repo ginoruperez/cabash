@@ -45,12 +45,12 @@ while read line; do
 
 
 		#Compare each file from /tmp/backup/user/ vs /home/user/
-		TMP_BAK_USER=${TMP_BACKUP}/${USER}/*.*
+		TMP_BAK_USER=${TMP_BACKUP}/$USER
 		
 
-		for FILENAME in $TMP_BAK_USER; do
+		for FILENAME in ${TMP_BAK_USER}/*.*; do
 
-			# remove the path using ##*/
+			# remove the path using ##*/ coz FILENAME contains the path and filename
 			USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
 
 			echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
@@ -61,16 +61,16 @@ while read line; do
 				echo "Both files differ"
 				#replace the previous with e.g. filename.1 , filename.2 ... 
 				counter=1
-				until [ ! -f ${TMP_BAK_USER}/${FILENAME}.$counter ]; do
+				until [ ! -f ${FILENAME}.$counter ]; do
 					let counter+=1
 					echo "Counter :" $counter
 				done
 
 				#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
-				sudo mv ${TMP_BAK_USER}/${FILENAME} ${TMP_BAK_USER}/${FILENAME}.$counter
+				sudo mv ${FILENAME} ${FILENAME}.$counter
 
 				#Then copy the original  file from /home/user to /tmp/backup/user/
-				cp $USER_FILE $TMP_BAK_USER
+				sudo cp $USER_FILE $TMP_BAK_USER
 
 			fi
 
