@@ -93,7 +93,7 @@ while read line; do
 
 			#Check if entry in .backup file is existed if not,  log the error
 			if [ ! -f $FILE1 ]; then
-				echo "ERROR: Entry file $SUERFILELINE in .backup is not actually existed!"
+				echo "ERROR: Entry filename $USERFILELINE in .backup file is not existed!"
 			fi
 			#Then copy the original  file from /home/user to /tmp/backup/user/
 			sudo cp $FILE1 ${TMP_BACKUP}/$USER
