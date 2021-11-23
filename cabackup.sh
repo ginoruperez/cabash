@@ -1,9 +1,15 @@
 #!/bin/bash
 
+#Check if parameter is passed or valid, otherwise terminate the program
 if [ ! -f $1 ]; then
 	echo "ERROR: Parameter file $1 does not exist!"
 	echo "Exiting Program..."
 	exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    echo "ERROR: No parameter file provided"
+    exit 1
 fi
 
 #globally output the error to /dev/null
