@@ -1,38 +1,40 @@
 #!/bin/bash
 
+
+#globally output error to /dev/null
+exec 2> /dev/null
+
 #this variable is switch to true once .tar.gz is extracted in /tmp/backup
 ISTARFILE_EXTRACTED=false
 
-#globally output error /dev/null
-exec 2> /dev/null
 
 while read line; do
 
-	echo "Preparing backup for user " $line
+	echo "*** Preparing backup for user " $line "***"
 
 	USER=$line
 
 	USER_DIRECTORY=/home/$USER  
 
-	#Initial file to be checked or created if .backup is not exist
+	#Initial file to be checked or created if .backup file is not yet existed
 	BACKUPFILE=.backup
 
-	#Folder to zip the backup 
+	#Folder to zip and copy the files to be backup
 	VAR_DIR=/var  
 
 	#Folder to extract existing backup.tar.gz
 	TMP_BACKUP=/tmp/backup
 
-	#Source folder to be backup
+	#Source folder to be zip into backup.tar.gz
 	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-		echo "Document .backup does not exist"
+		echo "File .backup does not exist in " $USER_DIRECTORY
 		echo "Creating .backup file...."
 		sudo touch ${USER_DIRECTORY}/$BACKUPFILE
 		if [ -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-			echo ".backup created successfully"
+			echo "File .backup created successfully"
 		fi
 	fi
 
@@ -42,7 +44,7 @@ while read line; do
 
 		if [ "$ISTARFILE_EXTRACTED" = false ]; then
 
-			echo "/var/backup.tar.gz exist"
+			echo "File /var/backup.tar.gz existed"
 			#check if /tmp/backup dir exist before extracting remove and create
 			if [ -d /tmp/backup ]; then 
 				#remove the existing files from /tmp/backup if any
@@ -50,9 +52,10 @@ while read line; do
 			fi
 			sudo mkdir /tmp/backup
 
-			echo "extracting /var/backup.tar.gz to /tmp/backup once only"
+			echo "Extracting /var/backup.tar.gz to /tmp/backup once only"
 			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
+			#set the switch to true
 			ISTARFILE_EXTRACTED=true
 
 		fi
@@ -64,23 +67,23 @@ while read line; do
 			FILE1=${USER_DIRECTORY}/$USERFILELINE
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
-			#IF  the same file exist in /tmp/backup/user then start compare
+			#if the same file exist in /tmp/backup/user then start the comparison and renaming of old files
 			if [ -f $FILE2 ]; then
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
 					echo $FILE1 " is identical to " $FILE2
 				else
 					echo $FILE1 " is differ to " $FILE2
-					#replace the previous with e.g. filename.1 , filename.2 ... 
+					
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
+						#Increment the counter for file renaming
 						let counter+=1
-						echo "Counter :" $counter
+						
 					done
 
-					#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
-					sudo mv ${FILE2} ${FILE2}.$counter
-			
+					#replace the previous with e.g. filename.1 , filename.2 ... 
+					sudo mv ${FILE2} ${FILE2}.$counter			
 
 				fi
 			
@@ -96,26 +99,26 @@ while read line; do
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-			echo "/var/backup folder is created"
+			echo "Folder /var/backup  is created"
 			sudo mkdir ${VAR_DIR}/backup
 		fi
 
 		#remove and create /var/backup/user 
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		if [ -d ${VAR_BAK_USER} ]; then 
-			sudo -rf $VAR_BAK_USER  #is this need??
+			sudo -rf $VAR_BAK_USER  
 		fi
 		sudo mkdir $VAR_BAK_USER
-
-		#copy now to /var/backup/user/
-		echo "Finally copy the content of /tmp/backup/user/*.* /var/backup/user"
+		
+		#Copying the content of /tmp/backup/user/*.* /var/backup/user"
+		echo "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 
 
  	else
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-				echo "/var/backup folder is created"
+				echo "Folder /var/backup folder is created"
 				sudo mkdir ${VAR_DIR}/backup
 		fi
 
