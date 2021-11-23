@@ -17,7 +17,7 @@ TEST CASE #3   : with .backup in home/gino contains two files mybash.txt and mys
                  with .backup in home/ginoruperez contains one file  mydata.scp
                  backup.tar.gz existed containing /gino/{withtwofiles}  and empty /ginoruperez 
 
-     OUTPUT    : backup.tar.gz created
+     OUTPUT    : backup.tar.gz created contains /gino with two files and /ginoruperez with one file
                 /tmp/backup/gino/{withtwofile}
                 /tmp/backup/ginoruperez created but empty
                 /var/backup/gino created and contains mybash.txt and myscript.txt
