@@ -51,27 +51,53 @@ while read line; do
 			FILE1=${USER_DIRECTORY}/$line
 			FILE2=${TMP_BACKUP}/$USER/$line
 
-			if cmp --silent -- "$FILE1" "$FILE2"; then
-				echo  $FILE1 "in /tmp is identical to " $FILE2
-			else
-				echo "Both files differ"
-				#replace the previous with e.g. filename.1 , filename.2 ... 
-				counter=1
-				until [ ! -f ${FILE2}.$counter ]; do
-					let counter+=1
-					echo "Counter :" $counter
-				done
+			#IF  the same file exist in /tmp/backup/user then start compare
+			if [ -f $FILE2 ]; then
 
-				#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
-				sudo mv ${FILE2} ${FILE2}.$counter
+				if cmp --silent -- "$FILE1" "$FILE2"; then
+					echo  $FILE1 "in /tmp is identical to " $FILE2
+				else
+					echo "Both files differ"
+					#replace the previous with e.g. filename.1 , filename.2 ... 
+					counter=1
+					until [ ! -f ${FILE2}.$counter ]; do
+						let counter+=1
+						echo "Counter :" $counter
+					done
 
-				#Then copy the original  file from /home/user to /tmp/backup/user/
-				sudo cp $FILE1 ${TMP_BACKUP}/$USER
+					#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
+					sudo mv ${FILE2} ${FILE2}.$counter
 
+			
+
+				fi
+			
 
 			fi
 
+			#Then copy the original  file from /home/user to /tmp/backup/user/
+			sudo cp $FILE1 ${TMP_BACKUP}/$USER
+			
+
 		done < $USER_BACKUP_FILE
+
+
+		#Check if /var/backup exist, if not create first
+		if [ ! -d ${VAR_DIR}/backup ]; then 
+			echo "/var/backup folder is created"
+			sudo mkdir ${VAR_DIR}/backup
+		fi
+
+		VAR_BAK_USER=${VAR_DIR}/backup/$USER
+		if [ -d ${VAR_BAK_USER} ]; then 
+			sudo -rf $VAR_BAK_USER
+		fi
+
+		#copy now to /var/backup/user/
+		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER
+
+
+
 
 
 
