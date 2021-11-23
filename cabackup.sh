@@ -96,8 +96,9 @@ while read line; do
 		sudo mkdir $VAR_BAK_USER
 
 		#copy now to /var/backup/user/
-		echo "Copy the content of /tmp/backup/user/*.* /var/backup/user"
+		echo "Finally copy the content of /tmp/backup/user/*.* /var/backup/user"
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2> /dev/null
+		
  	else
 
 		#Check if /var/backup exist, if not create first
