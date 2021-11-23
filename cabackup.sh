@@ -84,7 +84,7 @@ while read line; do
 					done
 
 					#replace the previous with e.g. filename.1 , filename.2 ... 
-					echo "Renaming ${FILE2} to " ${FILE2}.$counter 
+					echo "INFO: Renaming ${FILE2} to " ${FILE2}.$counter 
 					sudo mv ${FILE2} ${FILE2}.$counter			
 
 				fi
