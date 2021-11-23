@@ -98,46 +98,6 @@ while read line; do
 		#copy now to /var/backup/user/
 		echo "Copy the content of /tmp/backup/user/*.* /var/backup/user"
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2> /dev/null
-
-
-
-
-
-
-
-
-		#Compare each file from /tmp/backup/user/ vs /home/user/
-		#TMP_BAK_USER=${TMP_BACKUP}/$USER/*.*
-		
-		#for FILENAME in ${TMP_BAK_USER}; do
-
-			# remove the path using ##*/ coz FILENAME contains the path and filename
-			# USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
-
-		#	echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
-
-		#	if cmp --silent -- "$FILENAME" "$USER_FILE"; then
-		#		echo  $FILENAME "in /tmp is identical to " $USER_FILE
-		#	else
-		#		echo "Both files differ"
-		#		#replace the previous with e.g. filename.1 , filename.2 ... 
-		#		counter=1
-		#		until [ ! -f ${FILENAME}.$counter ]; do
-		#			let counter+=1
-		#			echo "Counter :" $counter
-		#		done
-
-		#		#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
-		#		sudo mv ${FILENAME} ${FILENAME}.$counter
-
-				#Then copy the original  file from /home/user to /tmp/backup/user/
-		#		sudo cp $USER_FILE ${TMP_BACKUP}/$USER
-
-		#	fi
-
-		#done
-		
-
  	else
 
 		#Check if /var/backup exist, if not create first
