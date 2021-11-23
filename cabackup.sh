@@ -40,6 +40,7 @@ while read line; do
 		else
 			#remove the existing files from /tmp/backup if any
 			sudo rm -rf /tmp/backup
+			sudo mkdir /tmp/backup
 		fi
 
 		echo "extracting /var/backup.tar.gz to /tmp/backup"
