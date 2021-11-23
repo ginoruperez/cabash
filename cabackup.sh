@@ -34,48 +34,79 @@ while read line; do
  	if [ -f ${VAR_DIR}/backup.tar.gz ]; then
 		echo "/var/backup.tar.gz exist"
 
-		#check if /tmp/backup dir exist before extracting 
-		if [ ! -d /tmp/backup ]; then 
-			sudo mkdir /tmp/backup
-		else
+		#check if /tmp/backup dir exist before extracting remove and create
+		if [ -d /tmp/backup ]; then 
 			#remove the existing files from /tmp/backup if any
-			sudo rm -rf /tmp/backup
-			sudo mkdir /tmp/backup
+		 	sudo rm -rf /tmp/backup
 		fi
+		sudo mkdir /tmp/backup
 
 		echo "extracting /var/backup.tar.gz to /tmp/backup"
 		sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
-		#Compare each file from /tmp/backup/user/ vs /home/user/
-		TMP_BAK_USER=${TMP_BACKUP}/$USER/*.*
-		
-		for FILENAME in ${TMP_BAK_USER}; do
 
-			# remove the path using ##*/ coz FILENAME contains the path and filename
-			USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
+		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
+		while read line; do
 
-			echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
+			FILE1=${USER_DIRECTORY}/$line
+			FILE2=${TMP_BACKUP}/$USER/$line
 
-			if cmp --silent -- "$FILENAME" "$USER_FILE"; then
-				echo  $FILENAME "in /tmp is identical to " $USER_FILE
+			if cmp --silent -- "$FILE1" "$FILE2"; then
+				echo  $FILE1 "in /tmp is identical to " $FILE2
 			else
 				echo "Both files differ"
 				#replace the previous with e.g. filename.1 , filename.2 ... 
 				counter=1
-				until [ ! -f ${FILENAME}.$counter ]; do
+				until [ ! -f ${FILE2}.$counter ]; do
 					let counter+=1
 					echo "Counter :" $counter
 				done
 
 				#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
-				sudo mv ${FILENAME} ${FILENAME}.$counter
+				sudo mv ${FILE2} ${FILE2}.$counter
 
 				#Then copy the original  file from /home/user to /tmp/backup/user/
-				sudo cp $USER_FILE ${TMP_BACKUP}/$USER
+				sudo cp $FILE1 ${TMP_BACKUP}/$USER
+
 
 			fi
 
-		done
+		done < $USER_BACKUP_FILE
+
+
+
+
+
+		#Compare each file from /tmp/backup/user/ vs /home/user/
+		#TMP_BAK_USER=${TMP_BACKUP}/$USER/*.*
+		
+		#for FILENAME in ${TMP_BAK_USER}; do
+
+			# remove the path using ##*/ coz FILENAME contains the path and filename
+			# USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
+
+		#	echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
+
+		#	if cmp --silent -- "$FILENAME" "$USER_FILE"; then
+		#		echo  $FILENAME "in /tmp is identical to " $USER_FILE
+		#	else
+		#		echo "Both files differ"
+		#		#replace the previous with e.g. filename.1 , filename.2 ... 
+		#		counter=1
+		#		until [ ! -f ${FILENAME}.$counter ]; do
+		#			let counter+=1
+		#			echo "Counter :" $counter
+		#		done
+
+		#		#rename the temp file with different content but same name from /home/user  e.g. myscript.txt is same file with /home/user/myscript.txt but diff in content
+		#		sudo mv ${FILENAME} ${FILENAME}.$counter
+
+				#Then copy the original  file from /home/user to /tmp/backup/user/
+		#		sudo cp $USER_FILE ${TMP_BACKUP}/$USER
+
+		#	fi
+
+		#done
 		
 
  	else
