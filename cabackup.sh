@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#this variable is switch to true once .tar.gz is extracted in /tmp/backup
+ISTARFILE_EXTRACTED=false
+
 while read line; do
 
 	echo "Preparing backup for user " $line
@@ -32,17 +35,24 @@ while read line; do
 
  	#check if /var/backup.tar.gz exist
  	if [ -f ${VAR_DIR}/backup.tar.gz ]; then
-		echo "/var/backup.tar.gz exist"
 
-		#check if /tmp/backup dir exist before extracting remove and create
-		if [ -d /tmp/backup ]; then 
-			#remove the existing files from /tmp/backup if any
-		 	sudo rm -rf /tmp/backup
+
+		if [ "$ISTARFILE_EXTRACTED" = false ]; then
+
+			echo "/var/backup.tar.gz exist"
+			#check if /tmp/backup dir exist before extracting remove and create
+			if [ -d /tmp/backup ]; then 
+				#remove the existing files from /tmp/backup if any
+				sudo rm -rf /tmp/backup
+			fi
+			sudo mkdir /tmp/backup
+
+			echo "extracting /var/backup.tar.gz to /tmp/backup once only"
+			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
+
+			ISTARFILE_EXTRACTED=true
+
 		fi
-		sudo mkdir /tmp/backup
-
-		echo "extracting /var/backup.tar.gz to /tmp/backup"
-		sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
@@ -98,7 +108,7 @@ while read line; do
 		#copy now to /var/backup/user/
 		echo "Finally copy the content of /tmp/backup/user/*.* /var/backup/user"
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2> /dev/null
-		
+
  	else
 
 		#Check if /var/backup exist, if not create first
