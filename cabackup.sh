@@ -88,13 +88,16 @@ while read line; do
 			sudo mkdir ${VAR_DIR}/backup
 		fi
 
+		#remove and create /var/backup/user 
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		if [ -d ${VAR_BAK_USER} ]; then 
-			sudo -rf $VAR_BAK_USER
+			sudo -rf $VAR_BAK_USER  #is this need??
 		fi
+		sudo mkdir $VAR_BAK_USER
 
 		#copy now to /var/backup/user/
-		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER
+		echo "Copy the content of /tmp/backup/user/*.* /var/backup/user"
+		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2> /dev/null
 
 
 
