@@ -148,6 +148,7 @@ done < $1
 
 
 # tar -czvf /var/backup.tar.gz $USER_DIRECTORY
+echo ""
 echo "Creating a backup.tar.gz file in /var from /var/backup content"
 sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
@@ -156,7 +157,7 @@ echo ""
 echo "Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
 echo ""
-echo "Backup completed"
+echo "Backup is successfully completed!"
 
 
 
