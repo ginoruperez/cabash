@@ -10,6 +10,7 @@ ISTARFILE_EXTRACTED=false
 
 while read line; do
 
+	echo ""
 	echo "*** Preparing backup for user " $line "***"
 
 	USER=$line
@@ -90,6 +91,10 @@ while read line; do
 
 			fi
 
+			#Check if entry in .backup file is existed if not,  log the error
+			if [ ! -f $FILE1 ]; then
+				echo "ERROR: Entry file $SUERFILELINE in .backup is not actually existed!"
+			fi
 			#Then copy the original  file from /home/user to /tmp/backup/user/
 			sudo cp $FILE1 ${TMP_BACKUP}/$USER
 			
