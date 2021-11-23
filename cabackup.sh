@@ -24,7 +24,7 @@ while read line; do
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
 		echo "Document .backup does not exist"
 		echo "Creating .backup file...."
-		touch ${USER_DIRECTORY}/$BACKUPFILE
+		sudo touch ${USER_DIRECTORY}/$BACKUPFILE
 		if [ -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
 			echo ".backup created successfully"
 		fi
