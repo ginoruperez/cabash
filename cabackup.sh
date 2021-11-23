@@ -50,7 +50,8 @@ while read line; do
 
 		for FILENAME in $TMP_BAK_USER; do
 
-			USER_FILE=${USER_DIRECTORY}/$FILENAME
+			# remove the path using ##*/
+			USER_FILE=${USER_DIRECTORY}/${FILENAME##*/}
 
 			echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
 
