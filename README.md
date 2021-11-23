@@ -42,6 +42,16 @@ TEST CASE #4	: Having the output from test case 3, modify /home/gino/mybash.txt
                 /var/backup/ginoruperez created and contains mydata.scp
 				  
                  
+TEST CASE #5	: reset them all by running ./rmbk  to remove all test samples
+				  create .backup in /home/gino with  content mybash.txt
+				  create .backup in /home/ginoruperez with content mydata.scp 
+
+	OUTPUT		: /var/backup/gino is create with one file mybash.txt
+				  /var/backup/ginoruperez is created  with one file mydata.scp
+	 			  /var/backup.tar.gz is created and with  two folders (/gino/withonefile and /ginoruperez/withonefile)
+	 			  no /tmp/backup created
+	 			  
+
 
 LEARNING 
 
