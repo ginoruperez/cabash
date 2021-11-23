@@ -52,6 +52,8 @@ while read line; do
 
 			USER_FILE=${USER_DIRECTORY}/$FILENAME
 
+			echo  "TEMP FILE" $FILENAME "in /tmp VS" $USER_FILE
+
 			if cmp --silent -- "$FILENAME" "$USER_FILE"; then
 				echo  $FILENAME "in /tmp is identical to " $USER_FILE
 			else
