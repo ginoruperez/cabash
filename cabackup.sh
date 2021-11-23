@@ -36,18 +36,18 @@ while read line; do
 
 		#check if /tmp/backup dir exist before extracting 
 		if [ ! -d /tmp/backup ]; then 
-			mkdir /tmp/backup
+			sudo mkdir /tmp/backup
+		else
+			#remove the existing files from /tmp/backup if any
+			sudo rm -rf /tmp/backup/*.*
 		fi
 
 		echo "extracting /var/backup.tar.gz to /tmp/backup"
 		tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
-
-
 		#Compare each file from /tmp/backup/user/ vs /home/user/
 		TMP_BAK_USER=${TMP_BACKUP}/$USER
 		
-
 		for FILENAME in ${TMP_BAK_USER}/*.*; do
 
 			# remove the path using ##*/ coz FILENAME contains the path and filename
