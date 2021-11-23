@@ -45,7 +45,7 @@ while read line; do
 
 
 		#Compare each file from /tmp/backup/user/ vs /home/user/
-		TMP_BAK_USER=${TMP_BACKUP}/$USER
+		TMP_BAK_USER=${TMP_BACKUP}/${USER}/*.*
 		
 
 		for FILENAME in $TMP_BAK_USER; do
