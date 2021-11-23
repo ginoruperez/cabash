@@ -126,37 +126,38 @@ while read line; do
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 
-		echo "Create $VAR_BAK_USER folder for each user"
+		echo "Creating $VAR_BAK_USER folder"
 		if [ ! -d $VAR_BAK_USER ]; then 
 				sudo mkdir $VAR_BAK_USER
 		fi
 
+		#Read the user .backup file and copy the file listed to /var/backup/$user 
 		while read USERFILELINE1; do
 
-			#Read the user .backup file and copy the file listed to /var/backup/$user 
-			echo "Example cp /home/gino/myscript.txt /var/backup/gino "
+			
+			#copying /home/gino/file to /var/backup/gino
+			echo "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
 			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
 
-
-
  	fi
- 
-
 
 
 done < $1
 
 
-# tar -czvf /var/backup.tar.gz $USER_DIRECTORY  this is final 
+# tar -czvf /var/backup.tar.gz $USER_DIRECTORY
 echo "Creating a backup.tar.gz file in /var from /var/backup content"
-#sudo tar -C /var/backup -cvf /var/backup.tar.gz . 
 sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
 #display the list of /var/backup.tar.gz
-echo "Displaying the content of /var/backup.tar.gz"
+echo ""
+echo "Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
+echo ""
+echo "Backup completed"
+
 
 
 
