@@ -3,12 +3,13 @@
 #Check if parameter is passed or valid, otherwise terminate the program
 if [ ! -f $1 ]; then
 	echo "ERROR: Parameter file $1 does not exist!"
-	echo "Exiting Program..."
+	echo "Program Terminated..."
 	exit 1
 fi
 
 if [ $# -eq 0 ]; then
-    echo "ERROR: No parameter file provided"
+    echo "ERROR: No parameter file provided!"
+	echo "Program Terminated..."
     exit 1
 fi
 
