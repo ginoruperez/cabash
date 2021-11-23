@@ -43,7 +43,7 @@ while read line; do
 		fi
 
 		echo "extracting /var/backup.tar.gz to /tmp/backup"
-		tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
+		sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 		#Compare each file from /tmp/backup/user/ vs /home/user/
 		TMP_BAK_USER=${TMP_BACKUP}/$USER/*.*
