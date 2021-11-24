@@ -1,15 +1,35 @@
 #!/bin/bash
 
+
+display_usage() { 
+	echo "This script must be run with a sudo access privileges." 
+	echo "Argument passed is a file containing existing users list of this system e.g userlist.txt"
+	echo -e "\nUsage: \$0 [argument] \n" 
+	} 
+ 
+# check whether user had supplied -h or --help . If yes display usage 
+if [[ ( $# == "--help") ||  $# == "-h" ]] 
+then 
+	display_usage
+	exit 0
+fi 
+ 
+# display usage if the script is not run as root user 
+if [[ "$EUID" -ne 0 ]]; then 
+	echo "This script must be run with a sudo access!" 
+	exit 1
+fi 
+
+
 #Check if parameter is passed or valid, otherwise terminate the program
 if [ ! -f $1 ]; then
-	echo "ERROR: Parameter file $1 does not exist!"
-	echo "Program Terminated..."
+	display_usage
 	exit 1
 fi
 
+#if not parameter passed
 if [ $# -eq 0 ]; then
-    echo "ERROR: No parameter file provided!"
-	echo "Program Terminated..."
+    display_usage
     exit 1
 fi
 
