@@ -4,7 +4,7 @@
 display_usage() { 
 	echo "This script must be run with a sudo access privileges." 
 	echo "Argument passed is a file containing existing users list of this system e.g userlist.txt"
-	echo -e "\nUsage: \$0 [argument] \n" 
+	echo -e "\nUsage: $0 [argument] \n" 
 	} 
  
 # check whether user had supplied -h or --help . If yes display usage 
