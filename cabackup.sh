@@ -2,7 +2,7 @@
 
 
 display_usage() { 
-	echo "This script must be run with a sudo access privileges." 
+	echo -e "\nThis script must be run with a sudo access privileges." 
 	echo "Argument passed is a file containing existing users list of this system e.g userlist.txt"
 	echo -e "\nUsage: $0 [argument] \n" 
 	} 
