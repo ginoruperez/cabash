@@ -13,13 +13,6 @@ then
 	display_usage
 	exit 0
 fi 
- 
-# display usage if the script is not run as root user 
-if [[ "$EUID" -ne 0 ]]; then 
-	echo "This script must be run with a sudo access!" 
-	exit 1
-fi 
-
 
 #Check if parameter is passed or valid, otherwise terminate the program
 if [ ! -f $1 ]; then
