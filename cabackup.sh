@@ -148,7 +148,7 @@ while read line; do
 				if cmp --silent -- "$FILE1" "$FILE2"; then
 					info $FILE1 " is identical to " $FILE2
 				else
-					info $FILE1 " is differ to " $FILE2 " previous file will be renamed"
+					info $FILE1 " is differ to " $FILE2 ", previous file will be renamed"
 					
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
