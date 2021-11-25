@@ -39,6 +39,7 @@ error()
 #Check filename contains / symbol listed in .backup file
 chk_filename() {
 
+	error "FILE $1"
 	STRFILE=$1
 	if [[ $STRFILE == *[\/]* ]]
 	then
