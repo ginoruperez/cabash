@@ -138,6 +138,7 @@ while read line; do
 			if [ -f $FILE2 ]; then
 
 				#Check filename if contains / symbol 
+				echo "WARNING ${USERFILELINE}"
 				chk_filename ${USERFILELINE}
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
