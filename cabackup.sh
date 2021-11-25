@@ -39,9 +39,8 @@ error()
 #Check filename contains / symbol listed in .backup file
 chk_filename() {
 
-	error "FILE $1"
 	STRFILE=$1
-	if [[ $STRFILE == *[\/]* ]] && [ -f $STRFILE ]
+	if [[ $STRFILE == *[\/]* ]] && [ -f ${USER_DIRECTORY}/$STRFILE ]
 	then
 		info "WARNING: File $STRFILE contains / symbol, file will not be backup correctly "
 	fi
@@ -139,7 +138,7 @@ while read line; do
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
 			#Check filename if contains / special symbol 
-			chk_filename ${FILE1}
+			chk_filename ${USERFILELINE}
 
 			#if the same file exist in /tmp/backup/user then start the comparison and renaming of old files
 			if [ -f $FILE2 ]; then
