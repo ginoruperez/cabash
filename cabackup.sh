@@ -30,12 +30,12 @@ fi
 #Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
 info()
 {
-    ${LOGGER} -s -t CABACKUP -p user.notice "INFO: $@"
+    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.notice "INFO: $@"
 }
 
 error()
 {
-    ${LOGGER} -s -t CABACKUP -p user.err "ERROR: $@"
+    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.err "ERROR: $@"
 }
 
 
@@ -43,7 +43,7 @@ error()
 
 #Check if user has sudo access
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
-echo "INFO: Checking user's privileges..."
+info "Checking user's privileges..."
 if [ $? -eq 0 ];then
    has_sudo_access="YES"
    info  "User " $(whoami) "has sudo access."
@@ -82,12 +82,12 @@ while read line; do
 	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
 	if [ ! -d $USER_DIRECTORY ]; then
-		echo -e "\nERROR: Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
+		error "\nEntry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
 		continue
 	fi
 
 	
-	echo -e "\n*** Preparing backup for user " $line "***"
+	info "\n*** Preparing backup for user " $line "***"
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
