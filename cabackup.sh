@@ -24,7 +24,31 @@ display_usage() {
 	echo "Make sure argument passed is a file containing existing users list of this system e.g userlist.txt"
 	echo -e "\nUsage: $0 [argument] \n" 
 	} 
- 
+
+#Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
+info()
+{
+    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.notice "INFO: $@"
+}
+
+error()
+{
+    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.err "ERROR: $@"
+}
+
+#Check filename contains / symbol listed in .backup file
+chk_filename() {
+
+	STRFILE=$1
+	if [[ $STRFILE == *[\/]* ]]
+	then
+		info "WARNING: File $STRFILE contains / symbol, file will not be backup correctly "
+	fi
+
+}
+
+
+
 # Check whether user had supplied -h or --help as argument. If yes the display_usage 
 if [[ ( $# == "--help") ||  $# == "-h" ]] 
 then 
@@ -43,18 +67,6 @@ if [ $# -eq 0 ]; then
     display_usage
     exit 1
 fi
-
-#Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
-info()
-{
-    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.notice "INFO: $@"
-}
-
-error()
-{
-    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.err "ERROR: $@"
-}
-
 
 #Check if user has sudo access privelege
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
@@ -118,18 +130,14 @@ while read line; do
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 		while read USERFILELINE; do
 
-			#Check if the file is placed in subdirectory
-			STRFILE=$USERFILELINE
-			if [[ $STRFILE == *[\/]* ]]
-			then
-  				info "WARNING: File $USERFILELINE contains / symbol, file will not be backup correctly "
-			fi
-
 			FILE1=${USER_DIRECTORY}/$USERFILELINE
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
 			#if the same file exist in /tmp/backup/user then start the comparison and renaming of old files
 			if [ -f $FILE2 ]; then
+
+				#Check filename if contains / symbol 
+				chk_filename ${USERFILELINE}
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
 					info $FILE1 " is identical to " $FILE2
