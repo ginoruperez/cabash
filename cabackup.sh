@@ -3,11 +3,11 @@
 
 display_usage() { 
 	echo -e "\nThis script must be run with a sudo access privilege." 
-	echo "Argument passed is a file containing existing users list of this system e.g userlist.txt"
+	echo "Make sure argument passed is a file containing existing users list of this system e.g userlist.txt"
 	echo -e "\nUsage: $0 [argument] \n" 
 	} 
  
-# check whether user had supplied -h or --help . If yes display usage 
+# Check whether user had supplied -h or --help as argument. If yes the display_usage 
 if [[ ( $# == "--help") ||  $# == "-h" ]] 
 then 
 	display_usage
@@ -20,7 +20,7 @@ if [ ! -f $1 ]; then
 	exit 1
 fi
 
-#if not parameter passed
+#if no parameter passed, call display_usage and terminate the program
 if [ $# -eq 0 ]; then
     display_usage
     exit 1
@@ -29,12 +29,12 @@ fi
 
 #Check if user has sudo access
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
+echo "INFO: Checking user's privileges..."
 if [ $? -eq 0 ];then
    has_sudo_access="YES"
-   echo "User " $(whoami) "has sudo access."
+   echo "INFO: User " $(whoami) "has sudo access."
 else
-   has_sudo_access="NO"
-   echo "User " $(whoami) "has no sudo access!"
+   echo "ERROR: User " $(whoami) "has no sudo access!"
    display_usage
    exit 0
 fi
