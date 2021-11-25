@@ -172,7 +172,7 @@ while read line; do
 			else
 				#Then copy the original  file from /home/user to /tmp/backup/user/
 				info "Copying  $FILE1 to ${TMP_BACKUP}/$USER"
-				sudo cp $FILE1 ${TMP_BACKUP}/$USER
+				sudo cp $FILE1 ${TMP_BACKUP}/$USER 2>/dev/null
 			
 			fi
 			
@@ -195,7 +195,7 @@ while read line; do
 		
 		#Copying the content of /tmp/backup/user/*.* /var/backup/user"
 		info "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
-		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 
+		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2>/dev/null
 
  	else
 
