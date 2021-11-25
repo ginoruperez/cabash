@@ -53,11 +53,6 @@ else
    exit 0
 fi
 
-
-
-#globally output the error to /dev/null
-#exec 2> /dev/null
-
 #this variable is switch to true once .tar.gz is extracted in /tmp/backup
 ISTARFILE_EXTRACTED=false
 
@@ -91,11 +86,11 @@ while read line; do
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-		echo "INFO: File .backup does not exist in " $USER_DIRECTORY
-		echo "INFO: Creating .backup file...."
+		info "File .backup does not exist in " $USER_DIRECTORY
+		info "Creating .backup file...."
 		sudo touch ${USER_DIRECTORY}/$BACKUPFILE
 		if [ -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
-			echo "INFO: File .backup created successfully"
+			info "File .backup created successfully"
 		fi
 	fi
 
@@ -105,7 +100,7 @@ while read line; do
 
 		if [ "$ISTARFILE_EXTRACTED" = false ]; then
 
-			echo "INFO: File /var/backup.tar.gz existed"
+			info "File /var/backup.tar.gz existed"
 			#check if /tmp/backup dir exist before extracting remove and create
 			if [ -d /tmp/backup ]; then 
 				#remove the existing files from /tmp/backup if any
@@ -113,7 +108,7 @@ while read line; do
 			fi
 			sudo mkdir /tmp/backup
 
-			echo "INFO: Extracting /var/backup.tar.gz to /tmp/backup once only"
+			info "Extracting /var/backup.tar.gz to /tmp/backup once only"
 			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
 
 			#set the switch to true
@@ -132,9 +127,9 @@ while read line; do
 			if [ -f $FILE2 ]; then
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
-					echo "INFO: "$FILE1 " is identical to " $FILE2
+					info $FILE1 " is identical to " $FILE2
 				else
-					echo "INFO: "$FILE1 " is differ to " $FILE2 " previous file will be renamed"
+					info $FILE1 " is differ to " $FILE2 " previous file will be renamed"
 					
 					counter=1
 					until [ ! -f ${FILE2}.$counter ]; do
@@ -144,7 +139,7 @@ while read line; do
 					done
 
 					#replace the previous with e.g. filename.1 , filename.2 ... 
-					echo "INFO: Renaming ${FILE2} to " ${FILE2}.$counter 
+					info "Renaming ${FILE2} to " ${FILE2}.$counter 
 					sudo mv ${FILE2} ${FILE2}.$counter			
 
 				fi
@@ -154,10 +149,10 @@ while read line; do
 
 			#Check if entry in .backup file is existed if not,  log the error
 			if [ ! -f $FILE1 ]; then
-				echo "ERROR: Entry filename $USERFILELINE in .backup file is not existed!"
+				error "Entry filename $USERFILELINE in .backup file is not existed!"
 			else
 				#Then copy the original  file from /home/user to /tmp/backup/user/
-				echo "INFO: Copying  $FILE1 to ${TMP_BACKUP}/$USER"
+				info "Copying  $FILE1 to ${TMP_BACKUP}/$USER"
 				sudo cp $FILE1 ${TMP_BACKUP}/$USER
 			
 			fi
@@ -168,7 +163,7 @@ while read line; do
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-			echo "INFO: Folder /var/backup  is created"
+			info "Folder /var/backup  is created"
 			sudo mkdir ${VAR_DIR}/backup
 		fi
 
@@ -180,14 +175,14 @@ while read line; do
 		sudo mkdir $VAR_BAK_USER
 		
 		#Copying the content of /tmp/backup/user/*.* /var/backup/user"
-		echo "INFO: Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
+		info "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 
 
  	else
 
 		#Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
-				echo "INFO: Folder /var/backup folder is created"
+				info "Folder /var/backup folder is created"
 				sudo mkdir ${VAR_DIR}/backup
 		fi
 
@@ -195,7 +190,7 @@ while read line; do
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 
-		echo "INFO: Creating $VAR_BAK_USER folder"
+		info "Creating $VAR_BAK_USER folder"
 		if [ ! -d $VAR_BAK_USER ]; then 
 				sudo mkdir $VAR_BAK_USER
 		fi
@@ -205,7 +200,7 @@ while read line; do
 
 			
 			#copying /home/gino/file to /var/backup/gino
-			echo "INFO: Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
+			info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
 			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
 
 		done < $USER_BACKUP_FILE
@@ -218,15 +213,15 @@ done < $1
 
 # tar -czvf /var/backup.tar.gz $USER_DIRECTORY
 echo ""
-logger -s -t GINO "Creating a backup.tar.gz file in /var from /var/backup content"
+info "Creating a backup.tar.gz file in /var from /var/backup content"
 sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
 
 #display the list of /var/backup.tar.gz
 echo ""
-echo "INFO: Listing the content of /var/backup.tar.gz"
+info "Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
 echo ""
-echo "INFO: Backup is successfully completed!"
+info "Backup is successfully completed!"
 
 
 
