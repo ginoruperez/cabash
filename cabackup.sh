@@ -87,7 +87,7 @@ while read line; do
 	fi
 
 	
-	info "\n*** Preparing backup for user " $line "***"
+	info "*** Preparing backup for user " $line "***"
 
 
 	if [ ! -f ${USER_DIRECTORY}/$BACKUPFILE ]; then
