@@ -1,7 +1,8 @@
 Bash Scripting
 Create a bash script, which takes as an argument, a filename where the file contains a list of usernames, and backs up the users home directories as follows:
 
-Each home directory contains a file named .backup, with the files to be backed up (relative paths from home directory) one per line. If the file .backup is not present, it should be created as zero-length.
+Each home directory contains a file named .backup, with the files to be backed up (relative paths from home directory) one per line. 
+If the file .backup is not present, it should be created as zero-length.
 
 The file /var/backup.tar.gz, if existing, should be extracted to /tmp/backup.
 
