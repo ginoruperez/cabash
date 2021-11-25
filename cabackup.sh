@@ -137,7 +137,7 @@ while read line; do
 			#This will contain a value /tmp/backup/username/filename
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
-			#Check filename if contains / special symbol 
+			#Check filename if contains / special symbol or the file is placed in a subdirectory relative to user directory
 			chk_filename ${USERFILELINE}
 
 			#if the same file exist in /tmp/backup/user then start the comparison and renaming of old files
@@ -217,7 +217,9 @@ while read line; do
 		#Read the user .backup file and copy the file listed to /var/backup/$user 
 		while read USERFILELINE1; do
 
-			
+			#Check filename if contains / special symbol or the file is placed in a subdirectory relative to user directory
+			chk_filename ${USERFILELINE1}
+
 			#copying /home/gino/file to /var/backup/gino
 			info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
 			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
