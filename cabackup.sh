@@ -77,11 +77,11 @@ while read line; do
 	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
 	if [ ! -d $USER_DIRECTORY ]; then
-		error "\nEntry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
+		error "Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
 		continue
 	fi
 
-	
+	echo ""
 	info "*** Preparing backup for user  $line ***"
 
 
@@ -170,7 +170,7 @@ while read line; do
 		#remove and create /var/backup/user 
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		if [ -d ${VAR_BAK_USER} ]; then 
-			sudo -rf $VAR_BAK_USER  
+			sudo rm -rf $VAR_BAK_USER  
 		fi
 		sudo mkdir $VAR_BAK_USER
 		
