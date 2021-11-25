@@ -1,5 +1,5 @@
 # cabash
-TEST CASES #1 :  no .backup file in /home/gino and /home/ginoruperez  and no /var/backup.tar.gz existed
+TEST CASES #1 :  run the ./rmbk to make no .backup file in /home/gino and /home/ginoruperez  and no /var/backup.tar.gz existed
 
      OUTPUT   :  /var/backup/gino, /var/backup/ginoruperez are created 
 	 			 /var/backup.tar.gz is created and with empty two folders (/gino and /ginoruperez)
