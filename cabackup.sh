@@ -2,7 +2,7 @@
 
 
 display_usage() { 
-	echo -e "\nThis script must be run with a sudo access privileges." 
+	echo -e "\nThis script must be run with a sudo access privilege." 
 	echo "Argument passed is a file containing existing users list of this system e.g userlist.txt"
 	echo -e "\nUsage: $0 [argument] \n" 
 	} 
@@ -25,6 +25,21 @@ if [ $# -eq 0 ]; then
     display_usage
     exit 1
 fi
+
+
+#Check if user has sudo access
+printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
+if [ $? -eq 0 ];then
+   has_sudo_access="YES"
+   echo "User " $(whoami) "has sudo access."
+else
+   has_sudo_access="NO"
+   echo "User " $(whoami) "has no sudo access!"
+   display_usage
+   exit 0
+fi
+
+
 
 #globally output the error to /dev/null
 exec 2> /dev/null
