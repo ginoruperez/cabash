@@ -75,7 +75,7 @@ while read line; do
 	USER_DIRECTORY=/home/$USER  	
 
 	if [ ! -d $USER_DIRECTORY ]; then
-		error "Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
+		error "Entry in file $1 user $line, folder " $USER_DIRECTORY " does not exist!"
 		continue
 	fi
 
