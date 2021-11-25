@@ -1,5 +1,6 @@
 #!/bin/bash
 
+LOGGER=/usr/bin/logger
 
 display_usage() { 
 	echo -e "\nThis script must be run with a sudo access privilege." 
@@ -26,15 +27,28 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+#Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
+info()
+{
+    ${LOGGER} -s -t CABACKUP -p user.notice "INFO: $@"
+}
+
+error()
+{
+    ${LOGGER} -s -t CABACKUP -p user.err "ERROR: $@"
+}
+
+
+
 
 #Check if user has sudo access
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
 echo "INFO: Checking user's privileges..."
 if [ $? -eq 0 ];then
    has_sudo_access="YES"
-   echo "INFO: User " $(whoami) "has sudo access."
+   info  "User " $(whoami) "has sudo access."
 else
-   echo "ERROR: User " $(whoami) "has no sudo access!"
+   error "User " $(whoami) "has no sudo access!"
    display_usage
    exit 0
 fi
