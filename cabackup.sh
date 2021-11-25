@@ -56,7 +56,7 @@ fi
 
 
 #globally output the error to /dev/null
-exec 2> /dev/null
+#exec 2> /dev/null
 
 #this variable is switch to true once .tar.gz is extracted in /tmp/backup
 ISTARFILE_EXTRACTED=false
