@@ -41,7 +41,7 @@ chk_filename() {
 
 	error "FILE $1"
 	STRFILE=$1
-	if [[ $STRFILE == *[\/]* ]]
+	if [[ $STRFILE == *[\/]* ]] && [ -f $STRFILE ]
 	then
 		info "WARNING: File $STRFILE contains / symbol, file will not be backup correctly "
 	fi
@@ -127,19 +127,24 @@ while read line; do
 
 		fi
 
-
+		#Put /home/username/.backup to USER_BACKUP_FILE
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
+
 		while read USERFILELINE; do
 
+			#This will contain a value /home/username/filename
 			FILE1=${USER_DIRECTORY}/$USERFILELINE
+
+			#This will contain a value /tmp/backup/username/filename
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
+
+			#Check filename if contains / special symbol 
+			chk_filename ${FILE1}
 
 			#if the same file exist in /tmp/backup/user then start the comparison and renaming of old files
 			if [ -f $FILE2 ]; then
 
-				#Check filename if contains / symbol 
-				echo "WARNING ${USERFILELINE}"
-				chk_filename ${USERFILELINE}
+				
 
 				if cmp --silent -- "$FILE1" "$FILE2"; then
 					info $FILE1 " is identical to " $FILE2
