@@ -120,9 +120,9 @@ while read line; do
 
 			#Check if the file is placed in subdirectory
 			STRFILE=$USERFILELINE
-			if [[ $STRFILE == *[\\]* ]]
+			if [[ $STRFILE == *[\/]* ]]
 			then
-  				info "WARNING: File $USERFILELINE contains \ symbol, file will not be backup correctly "
+  				info "WARNING: File $USERFILELINE contains / symbol, file will not be backup correctly "
 			fi
 
 			FILE1=${USER_DIRECTORY}/$USERFILELINE
