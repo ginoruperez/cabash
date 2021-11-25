@@ -8,11 +8,12 @@
 # This script is a utility for making a user backup based on the list entered in .backup file
 # If the .backup file is not existed in home user folder it will be created a blank one. 
 # User must populate it with filenames to be backup one filename per line. 
+# Actual file should be placed relative to home user folder e.g. /home/[username]/[file]
 # It requires that the user who runs the script to have a sudo access priveleges. 
 # Files are backup in /var/backup folder for each user and a compressed tar file is created
 # once the backup is completed successfully. 
 #
-# The script also created log entry in /var/log/syslog when it runs in Debian OS otherwise log entry can
+# The script also creates log entry in /var/log/syslog when it runs in Debian OS otherwise log entry can
 # be seen in /var/log/messages for other distro such as FEDORA e.g centos. 
 #
 # Please see below the usage syntax. 
