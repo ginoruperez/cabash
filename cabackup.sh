@@ -42,7 +42,7 @@ chk_filename() {
 	STRFILE=$1
 	if [[ $STRFILE == *[\/]* ]] && [ -f ${USER_DIRECTORY}/$STRFILE ]
 	then
-		info "WARNING: File $STRFILE contains / symbol, file must be placed relative to user folder ${USER_DIRECTORY}"
+		info "WARNING: Entry file $STRFILE contains / symbol, file must be placed relative to user folder ${USER_DIRECTORY}"
 	fi
 
 }
