@@ -1,7 +1,24 @@
 #!/bin/bash
 
+#logger variable 
 LOGGER=/usr/bin/logger
 
+#this variable is switch to true once .tar.gz is extracted in /tmp/backup
+ISTARFILE_EXTRACTED=false
+
+#Initial file to be checked or created if .backup file is not yet existed
+BACKUPFILE=.backup
+
+#Folder to zip and copy the files to be backup
+VAR_DIR=/var  
+
+#Folder to extract existing backup.tar.gz
+TMP_BACKUP=/tmp/backup
+
+#Source folder to be zip into backup.tar.gz
+DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
+
+#Display usage instruction 
 display_usage() { 
 	echo -e "\nThis script must be run with a sudo access privilege." 
 	echo "Make sure argument passed is a file containing existing users list of this system e.g userlist.txt"
@@ -39,13 +56,10 @@ error()
 }
 
 
-
-
-#Check if user has sudo access
+#Check if user has sudo access privelege
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
 info "Checking user's privileges..."
 if [ $? -eq 0 ];then
-   has_sudo_access="YES"
    info  "User " $(whoami) "has sudo access."
 else
    error "User " $(whoami) "has no sudo access!"
@@ -53,28 +67,12 @@ else
    exit 0
 fi
 
-#this variable is switch to true once .tar.gz is extracted in /tmp/backup
-ISTARFILE_EXTRACTED=false
-
-
+#Iterate base on the number lines entered in userlist text file
 while read line; do
 
-	
 	USER=$line
 
-	USER_DIRECTORY=/home/$USER  
-
-	#Initial file to be checked or created if .backup file is not yet existed
-	BACKUPFILE=.backup
-
-	#Folder to zip and copy the files to be backup
-	VAR_DIR=/var  
-
-	#Folder to extract existing backup.tar.gz
-	TMP_BACKUP=/tmp/backup
-
-	#Source folder to be zip into backup.tar.gz
-	DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
+	USER_DIRECTORY=/home/$USER  	
 
 	if [ ! -d $USER_DIRECTORY ]; then
 		error "Entry in file $1 user $line folder " $USER_DIRECTORY " does not exist!"
