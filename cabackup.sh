@@ -118,6 +118,13 @@ while read line; do
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 		while read USERFILELINE; do
 
+			#Check if the file is placed in subdirectory
+			STRFILE=$USERFILELINE
+			if [[ $STRFILE == *[\\]* ]]
+			then
+  				info "WARNING: File $USERFILELINE contains \ symbol, file will not be backup correctly "
+			fi
+
 			FILE1=${USER_DIRECTORY}/$USERFILELINE
 			FILE2=${TMP_BACKUP}/$USER/$USERFILELINE
 
