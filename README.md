@@ -1,4 +1,8 @@
 # cabash
+PREREQUISITE : userlist.txt   
+				 - gino
+				 - ginoruperez
+
 TEST CASES #1 :  run the ./rmbk to make no .backup file in /home/gino and /home/ginoruperez  and no /var/backup.tar.gz existed
 
      OUTPUT   :  /var/backup/gino, /var/backup/ginoruperez are created 
@@ -33,10 +37,10 @@ TEST CASE #3   : with .backup in home/gino contains two files mybash.txt and mys
                 /var/backup/gino created and contains mybash.txt and myscript.txt
                 /var/backup/ginoruperez created and contains mydata.scp
 
-TEST CASE #4	: Having the output from test case 3, modify /home/gino/mybash.txt 
+TEST CASE #4	: Having the output from test case 3, modify /home/gino/mybash.txt    (run this for 3 times)
 
 	OUTPUT 		: backup.tar.gz created contains /gino with two files and /ginoruperez with one file
-                /tmp/backup/gino/{create with 3 files  mybash.txt, mybash.txt.1 and myscript.txt}
+                /tmp/backup/gino/{create with 3 files  mybash.txt, mybash.txt.1 and myscript.txt} NOTE: mybash should have 4 entries .1 .2 .3 and original mybash.txt
                 /tmp/backup/ginoruperez/{ created with mydata.scp }
                 /var/backup/gino created and contains mybash.txt and myscript.txt
                 /var/backup/ginoruperez created and contains mydata.scp
