@@ -45,6 +45,9 @@ DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 # Output log file 
 OUTPUTLOG=/dev/null
 
+# Backup status to determine if backup is completed successfully
+BACKUPOK=true
+
 # Display usage instruction 
 display_usage() { 
 	echo -e "\nThis script must be run with a sudo access privilege." 
@@ -108,7 +111,8 @@ chk_filename() {
 	STRFILE=$1
 	if [[ $STRFILE == *[\/]* ]] && [ -f ${USER_DIRECTORY}/$STRFILE ]
 	then
-		info "WARNING: Entry file $STRFILE contains / symbol, file must be placed relative to user folder ${USER_DIRECTORY}"
+		error "Entry file $STRFILE contains / symbol, file must be placed relative to user folder ${USER_DIRECTORY}"
+		BACKUPOK=false
 	fi
 
 }
@@ -123,6 +127,7 @@ while read line; do
 
 	if [ ! -d $USER_DIRECTORY ]; then
 		error "Entry in file $1 user $line, folder " $USER_DIRECTORY " does not exist!"
+		BACKUPOK=false
 		continue
 	fi
 
@@ -205,6 +210,7 @@ while read line; do
 			# Check if entry in .backup file is existed if not,  log the error
 			if [ ! -f $FILE1 ]; then
 				error "Entry filename $USERFILELINE in .backup file is not existed!"
+				BACKUPOK=false
 			else
 				# Then copy the original  file from /home/user to /tmp/backup/user/
 				info "Copying  $FILE1 to ${TMP_BACKUP}/$USER"
@@ -262,6 +268,7 @@ while read line; do
 			# Check if entry in .backup file is existed if not,  log the error
 			if [ ! -f $FILE1 ]; then
 				error "Entry filename $USERFILELINE1 in .backup file is not existed!"
+				BACKUPOK=false
 			else
 				# e.g copying /home/gino/file to /var/backup/gino
 				info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
@@ -289,7 +296,14 @@ echo ""
 info "Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
 echo ""
-info "Backup is successfully completed!"
+
+if [ "$ISTARFILE_EXTRACTED" = true ]; then
+	info "Backup is successfully completed!"
+	info "Details about the output backup file"
+	ls -l /var/backup.tar.gz
+else
+	info "Backup completed with ERROR(S)!"
+fi
 
 
 
