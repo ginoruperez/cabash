@@ -23,6 +23,8 @@
 # The argument is a text file containing list of existing users of the system
 #############################################################################################
 
+
+
 # logger variable 
 LOGGER=/usr/bin/logger
 
@@ -48,6 +50,7 @@ display_usage() {
 	echo -e "\nUsage: $0 [argument] \n" 
 	} 
 
+
 # Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
 info()
 {
@@ -58,6 +61,44 @@ error()
 {
     ${LOGGER} -s -t CABACKUP-SCRIPT -p user.err "ERROR: $@"
 }
+
+
+
+# Check whether user had supplied -h or --help as argument. If yes the display_usage 
+if [[ ( $1 == "--help") ||  $1 == "-h" ]] 
+then 
+	display_usage
+	exit 0
+fi 
+
+# Check if parameter is passed or valid, otherwise terminate the program
+if [ ! -f $1 ]; then
+	error "File $1 argument does not exist!"
+	echo ""
+	display_usage
+	exit 1
+fi
+
+# if no parameter passed, call display_usage and terminate the program
+if [ $# -eq 0 ]; then
+	error "No argument passed!"
+	echo ""
+    display_usage
+    exit 1
+fi
+
+
+# Check if user has sudo access privelege
+info "Checking user's privileges..."
+printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
+if [ $? -eq 0 ];then
+   info  "User " $(whoami) "has sudo access."
+else
+   error "User " $(whoami) "has no sudo access!"
+   display_usage
+   exit 1
+fi
+
 
 # Check filename contains / symbol listed in .backup file
 chk_filename() {
@@ -70,37 +111,6 @@ chk_filename() {
 
 }
 
-
-
-# Check whether user had supplied -h or --help as argument. If yes the display_usage 
-if [[ ( $# == "--help") ||  $# == "-h" ]] 
-then 
-	display_usage
-	exit 0
-fi 
-
-# Check if parameter is passed or valid, otherwise terminate the program
-if [ ! -f $1 ]; then
-	display_usage
-	exit 1
-fi
-
-# if no parameter passed, call display_usage and terminate the program
-if [ $# -eq 0 ]; then
-    display_usage
-    exit 1
-fi
-
-# Check if user has sudo access privelege
-printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
-info "Checking user's privileges..."
-if [ $? -eq 0 ];then
-   info  "User " $(whoami) "has sudo access."
-else
-   error "User " $(whoami) "has no sudo access!"
-   display_usage
-   exit 0
-fi
 
 # Iterate base on the number lines entered in userlist text file
 while read line; do
