@@ -139,7 +139,8 @@ while read line; do
 		fi
 	fi
 
- 	# check if /var/backup.tar.gz exist
+ 	# Check if /var/backup.tar.gz exist, if existed extract to /tmp/backup 
+	# otherwise copy the users file from /home/[user] to /var/backup
  	if [ -f ${VAR_DIR}/backup.tar.gz ]; then
 
 
