@@ -42,6 +42,9 @@ TMP_BACKUP=/tmp/backup
 # Source folder to be zip into backup.tar.gz
 DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
+# Output log file
+LOGFILE=output.log
+
 # Display usage instruction 
 display_usage() { 
 	echo -e "\nThis script must be run with a sudo access privilege." 
@@ -146,7 +149,7 @@ while read line; do
 			# check if /tmp/backup dir exist before extracting remove and create
 			if [ -d /tmp/backup ]; then 
 				# remove the existing files from /tmp/backup if any
-				sudo rm -rf /tmp/backup
+				sudo rm -rf /tmp/backup &>$LOGFILE
 			fi
 			sudo mkdir /tmp/backup
 
@@ -267,7 +270,7 @@ done < $1
 # tar -czvf /var/backup.tar.gz $USER_DIRECTORY
 echo ""
 info "Creating a backup.tar.gz file in /var from /var/backup content"
-sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . 
+sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . &>$LOGFILE
 
 # display the list of /var/backup.tar.gz
 echo ""
