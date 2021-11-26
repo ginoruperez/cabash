@@ -42,8 +42,8 @@ TMP_BACKUP=/tmp/backup
 # Source folder to be zip into backup.tar.gz
 DIRECTORY_TO_BACKUP=${VAR_DIR}/backup
 
-# Output log file
-LOGFILE=output.log
+# Output log file 
+OUTPUTLOG=/dev/null
 
 # Display usage instruction 
 display_usage() { 
@@ -149,12 +149,12 @@ while read line; do
 			# check if /tmp/backup dir exist before extracting remove and create
 			if [ -d /tmp/backup ]; then 
 				# remove the existing files from /tmp/backup if any
-				sudo rm -rf /tmp/backup &>$LOGFILE
+				sudo rm -rf /tmp/backup &>$OUTPUTLOG
 			fi
 			sudo mkdir /tmp/backup
 
 			info "Extracting /var/backup.tar.gz to /tmp/backup once only"
-			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP
+			sudo tar xf ${VAR_DIR}/backup.tar.gz -C $TMP_BACKUP &>$OUTPUTLOG
 
 			# set the switch to true
 			ISTARFILE_EXTRACTED=true
@@ -194,7 +194,7 @@ while read line; do
 
 					# replace the previous with e.g. filename.1 , filename.2 ... 
 					info "Renaming ${FILE2} to " ${FILE2}.$counter 
-					sudo mv ${FILE2} ${FILE2}.$counter			
+					sudo mv ${FILE2} ${FILE2}.$counter	&>$OUTPUTLOG		
 
 				fi
 			
@@ -207,7 +207,7 @@ while read line; do
 			else
 				# Then copy the original  file from /home/user to /tmp/backup/user/
 				info "Copying  $FILE1 to ${TMP_BACKUP}/$USER"
-				sudo cp $FILE1 ${TMP_BACKUP}/$USER 2>/dev/null
+				sudo cp $FILE1 ${TMP_BACKUP}/$USER &>$OUTPUTLOG
 			
 			fi
 			
@@ -218,26 +218,26 @@ while read line; do
 		# Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
 			info "Folder /var/backup  is created"
-			sudo mkdir ${VAR_DIR}/backup
+			sudo mkdir ${VAR_DIR}/backup &>$OUTPUTLOG
 		fi
 
 		# remove and create /var/backup/user 
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		if [ -d ${VAR_BAK_USER} ]; then 
-			sudo rm -rf $VAR_BAK_USER  
+			sudo rm -rf $VAR_BAK_USER &>$OUTPUTLOG 
 		fi
 		sudo mkdir $VAR_BAK_USER
 		
 		# Copying the content of /tmp/backup/user/*.* /var/backup/user"
 		info "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
-		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER 2>/dev/null
+		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER &>$OUTPUTLOG
 
  	else
 
 		# Check if /var/backup exist, if not create first
 		if [ ! -d ${VAR_DIR}/backup ]; then 
 				info "Folder /var/backup folder is created"
-				sudo mkdir ${VAR_DIR}/backup
+				sudo mkdir ${VAR_DIR}/backup &>$OUTPUTLOG
 		fi
 
 		# Read each user e.g /home/gino/.backup file and copy to /var/backup/$user/
@@ -246,7 +246,7 @@ while read line; do
 
 		info "Creating $VAR_BAK_USER folder"
 		if [ ! -d $VAR_BAK_USER ]; then 
-				sudo mkdir $VAR_BAK_USER
+				sudo mkdir $VAR_BAK_USER &>$OUTPUTLOG
 		fi
 
 		# Read the user .backup file and copy the file listed to /var/backup/$user 
@@ -257,7 +257,7 @@ while read line; do
 
 			# copying /home/gino/file to /var/backup/gino
 			info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
-			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER
+			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER &>$OUTPUTLOG
 
 		done < $USER_BACKUP_FILE
 
