@@ -139,7 +139,7 @@ while read line; do
 		fi
 	fi
 
- 	# Check if /var/backup.tar.gz exist, if existed extract to /tmp/backup 
+ 	# Check if /var/backup.tar.gz exist, if existed extract to /tmp/backup once only
 	# otherwise copy the users file from /home/[user] to /var/backup
  	if [ -f ${VAR_DIR}/backup.tar.gz ]; then
 
@@ -147,7 +147,7 @@ while read line; do
 		if [ "$ISTARFILE_EXTRACTED" = false ]; then
 
 			info "File /var/backup.tar.gz existed"
-			# check if /tmp/backup dir exist before extracting remove and create
+			# check if /tmp/backup dir exist before extracting,  remove and create
 			if [ -d /tmp/backup ]; then 
 				# remove the existing files from /tmp/backup if any
 				sudo rm -rf /tmp/backup &>$OUTPUTLOG
