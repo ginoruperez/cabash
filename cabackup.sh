@@ -298,12 +298,12 @@ tar --list --file=/var/backup.tar.gz
 echo ""
 
 if [ "$BACKUPOK" = true ]; then
-	info "Backup is successfully completed!"
-	info "Details about the output backup file"
-	ls -l /var/backup.tar.gz
+	info "Backup is successfully completed!"	
 else
 	info "Backup completed with ERROR(S)!"
 fi
+info "Details about the output backup file"
+ls -l /var/backup.tar.gz
 
 
 
