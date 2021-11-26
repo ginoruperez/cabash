@@ -222,14 +222,14 @@ while read line; do
 			sudo mkdir ${VAR_DIR}/backup &>$OUTPUTLOG
 		fi
 
-		# remove and create /var/backup/user 
+		# remove and create /var/backup/[user]
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		if [ -d ${VAR_BAK_USER} ]; then 
 			sudo rm -rf $VAR_BAK_USER &>$OUTPUTLOG 
 		fi
 		sudo mkdir $VAR_BAK_USER
 		
-		# Copying the content of /tmp/backup/user/*.* /var/backup/user"
+		# Copying the content of /tmp/backup/[user]/*.* /var/backup/[user]"
 		info "Copying the content of " ${TMP_BACKUP}/${USER}/ " to " $VAR_BAK_USER 
 		sudo cp ${TMP_BACKUP}/${USER}/*.* $VAR_BAK_USER &>$OUTPUTLOG
 
@@ -241,7 +241,7 @@ while read line; do
 				sudo mkdir ${VAR_DIR}/backup &>$OUTPUTLOG
 		fi
 
-		# Read each user e.g /home/gino/.backup file and copy to /var/backup/$user/
+		# Read each user e.g /home/gino/.backup file and copy to /var/backup/gino/
 		VAR_BAK_USER=${VAR_DIR}/backup/$USER
 		USER_BACKUP_FILE=${USER_DIRECTORY}/$BACKUPFILE
 
@@ -279,7 +279,7 @@ while read line; do
 done < $1
 
 
-# tar -czvf /var/backup.tar.gz $USER_DIRECTORY
+# Creating /var/backup.tar.gz 
 echo ""
 info "Creating a backup.tar.gz file in /var from /var/backup content"
 sudo tar -C $DIRECTORY_TO_BACKUP -cvf ${VAR_DIR}/backup.tar.gz . &>$OUTPUTLOG
