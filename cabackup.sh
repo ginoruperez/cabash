@@ -255,10 +255,21 @@ while read line; do
 			# Check filename if contains / special symbol or the file is placed in a subdirectory relative to user directory
 			chk_filename ${USERFILELINE1}
 
-			# copying /home/gino/file to /var/backup/gino
-			info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
-			sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER &>$OUTPUTLOG
+			# FILE1 value is /home/[user]/[filename]
+            FILE1=${USER_DIRECTORY}/$USERFILELINE1
 
+			# Check if entry in .backup file is existed if not,  log the error
+			if [ ! -f $FILE1 ]; then
+				error "Entry filename $USERFILELINE1 in .backup file is not existed!"
+			else
+				# e.g copying /home/gino/file to /var/backup/gino
+				info "Copying file ${USER_DIRECTORY}/$USERFILELINE1 to $VAR_BAK_USER"
+				sudo cp ${USER_DIRECTORY}/$USERFILELINE1 $VAR_BAK_USER &>$OUTPUTLOG
+
+			
+			fi
+
+			
 		done < $USER_BACKUP_FILE
 
  	fi
