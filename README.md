@@ -49,7 +49,8 @@ TEST CASE #5	: reset them all by running ./rmbk  to remove all test samples
 
 	OUTPUT		: /var/backup/gino is create with one file mybash.txt
 				  /var/backup/ginoruperez is created  with one file mydata.scp
-	 			  /var/backup.tar.gz is created and with  two folders (/gino/withonefile and /ginoruperez/withonefile and subdirectory and file mydata/personal.txt )
+				  display warning for personal.txt, it will be backup relative to user folder instead, will not be compared 
+	 			  /var/backup.tar.gz is created and with  two folders (/gino/withonefile and /ginoruperez/withonefile  )
 	 			  no /tmp/backup created
 	 			  /home/gino/.backup and /home/ginoruperez/.backup created
 
