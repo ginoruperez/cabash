@@ -297,7 +297,7 @@ info "Listing the content of /var/backup.tar.gz"
 tar --list --file=/var/backup.tar.gz
 echo ""
 
-if [ "$ISTARFILE_EXTRACTED" = true ]; then
+if [ "$BACKUPOK" = true ]; then
 	info "Backup is successfully completed!"
 	info "Details about the output backup file"
 	ls -l /var/backup.tar.gz
