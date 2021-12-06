@@ -13,8 +13,8 @@
 # Files are backup in /var/backup folder for each user and finally a compressed backup.tar.gz file 
 # is created once the backup is completed successfully. 
 # 
-# The script also creates log entries in /var/log/syslog when it runs in Debian OS otherwise log entry can
-# be seen in /var/log/messages for other distro such as FEDORA e.g centos. 
+# The script also creates log entries in /var/log/syslog when it runs in Debian base linx e.g. ubuntu 
+# otherwise log entry can be seen in /var/log/messages for other distro such as FEDORA e.g centos. 
 #
 # Please see below the usage syntax. 
 #
