@@ -302,9 +302,3 @@ if [ "$BACKUPOK" = true ]; then
 else
 	info "Backup completed with ERROR(S)!"
 fi
-info "Details about the output backup file"
-ls -l /var/backup.tar.gz
-
-
-
-
