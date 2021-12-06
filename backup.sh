@@ -118,7 +118,7 @@ chk_filename() {
 }
 
 
-# Iterate base on the number lines entered in userlist text file
+# Iterate base on the number of lines entered in userlist text file
 while read line; do
 
 	USER=$line
