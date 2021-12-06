@@ -6,7 +6,9 @@ If the file .backup is not present, it should be created as zero-length.
 
 The file /var/backup.tar.gz, if existing, should be extracted to /tmp/backup.
 
-Each relevant file in /home/<user> should be compared with those in the /tmp/backup/<user> directory with the same name, and if different, the previous version must be renamed and replaced. If filename.1 exists, filename should be renamed to filename.2 or 3 etc. and the file copied from the home directory. 
+Each relevant file in /home/<user> should be compared with those in the /tmp/backup/<user> directory with the same name, 
+and if different, the previous version must be renamed and replaced. If filename.1 exists, filename should be renamed to 
+filename.2 or 3 etc. and the file copied from the home directory. 
 
 At the end the backup should be zipped up tar with gzip compression to /var/backup.tar.gz
 
