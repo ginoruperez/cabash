@@ -59,12 +59,12 @@ display_usage() {
 # Create logs in /var/log/syslog if runs in ubuntu or /var/log/messages if it runs in other distro e.g. centos
 info()
 {
-    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.notice "INFO: $@"
+    ${LOGGER} -s -t BACKUP-SCRIPT -p user.notice "INFO: $@"
 }
 
 error()
 {
-    ${LOGGER} -s -t CABACKUP-SCRIPT -p user.err "ERROR: $@"
+    ${LOGGER} -s -t BACKUP-SCRIPT -p user.err "ERROR: $@"
 }
 
 
