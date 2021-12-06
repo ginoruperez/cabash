@@ -62,6 +62,30 @@ TEST CASE #5	: reset them all by running ./rmbk  to remove all test samples
 	 			  /home/gino/.backup and /home/ginoruperez/.backup created
 
 
+TEXT CAS #6     : reset them all by running ./rmbk  to remove all test samples
+				  create a sample directory under /home folder as mark, luke, john
+				  create a file markcv.txt under /home/mark
+				  create a file lukecv.txt under /home/luke
+
+				  create .backup in /home/gino with  content mybash.txt
+				  create .backup in /home/ginoruperez with content mydata.scp
+				  create .backup in /home/mark with content markcv.txt
+				  create userlist.txt with gino and mark only
+
+	OUTPUT 		: /var/backup.tar.gz is create with two folders and file (/gino/mybash.txt, /mark/markcv.txt)
+				  no /tmp/backup/created
+				  /var/backup/gino is created with onefile mybash.txt
+				  /var/backup/mark is created with markcv.txt
+
+
+
+
+
+NOTE FOR SUBMISSION: 
+
+NAME OF FILE SHOULD BE backup.sh
+
+
 LEARNING 
 
 
