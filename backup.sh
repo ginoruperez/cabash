@@ -93,7 +93,7 @@ if [ $# -eq 0 ]; then
 fi
 
 
-# Check if user has sudo access privelege
+# Check if user has sudo access privilege
 info "Checking user's privileges..."
 printf "skippass\n" | sudo -S /bin/chmod --help >/dev/null 2>&1
 if [ $? -eq 0 ];then
@@ -105,7 +105,7 @@ else
 fi
 
 
-# Check filename contains / symbol listed in .backup file
+# Check filename if contains / symbol listed in .backup file
 chk_filename() {
 
 	STRFILE=$1
