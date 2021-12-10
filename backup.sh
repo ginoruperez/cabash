@@ -289,7 +289,7 @@ done < $1
 # Creating /var/backup.tar.gz 
 echo ""
 info "Creating a backup.tar.gz file in /var from /var/backup content"
-sudo tar -C $DIRECTORY_TO_BACKUP -cvzf ${VAR_DIR}/backup.tar.gz . &>$OUTPUTLOG
+sudo tar -C $DIRECTORY_TO_BACKUP -czf ${VAR_DIR}/backup.tar.gz . &>$OUTPUTLOG
 
 # display the list of /var/backup.tar.gz
 echo ""
