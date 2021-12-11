@@ -134,6 +134,7 @@ while read line; do
 	# if empty line is entered in the userlist 
 	if [ -z "$USER" ]; then
 		error "Empty line is entered in user list argument file!"
+		BACKUPOK=false
 		continue
 	fi
 
